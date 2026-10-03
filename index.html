@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NÖVBƏ AZ — Azərbaycanın Canlı Növbə Sistemi</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#070b14;
+ --card:rgba(17,24,39,.82);
+ --card2:#111827;
+ --line:rgba(255,255,255,.09);
+ --text:#f5f7fb;
+ --muted:#8e9aae;
+ --blue:#628cff;
+ --purple:#9367ff;
+ --green:#42e59a;
+ --yellow:#ffd166;
+ --red:#ff626c;
+}
+body{
+ font-family:Inter,Arial,sans-serif;
+ color:var(--text);
+ min-height:100vh;
+ background:
+ radial-gradient(circle at 10% 0%,rgba(72,112,255,.22),transparent 32%),
+ radial-gradient(circle at 90% 100%,rgba(151,72,255,.18),transparent 30%),
+ var(--bg);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{
+ position:sticky;
+ top:0;
+ z-index:100;
+ background:rgba(7,11,20,.78);
+ backdrop-filter:blur(20px);
+ border-bottom:1px solid var(--line);
+}
+.nav{
+ width:min(1250px,94%);
+ margin:auto;
+ min-height:70px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+}
+.logo{
+ font-size:24px;
+ font-weight:900;
+ letter-spacing:1px;
+}
+.logo span{color:var(--blue)}
+.nav-right{
+ display:flex;
+ gap:8px;
+}
+.btn{
+ border:1px solid var(--line);
+ background:#151d2d;
+ color:white;
+ padding:11px 15px;
+ border-radius:12px;
+ transition:.2s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{
+ border:0;
+ background:linear-gradient(135deg,var(--blue),var(--purple));
+}
+.btn-danger{
+ background:#64232c;
+ border-color:#7d3039;
+}
+.container{
+ width:min(1250px,94%);
+ margin:auto;
+}
+.hero{
+ text-align:center;
+ padding:55px 10px 35px;
+}
+.hero h1{
+ font-size:clamp(38px,7vw,75px);
+ line-height:1;
+ margin-bottom:20px;
+}
+.hero h1 span{
+ background:linear-gradient(90deg,#6d9bff,#a77bff);
+ -webkit-background-clip:text;
+ color:transparent;
+}
+.hero p{
+ max-width:720px;
+ margin:auto;
+ color:var(--muted);
+ line-height:1.7;
+}
+.live{
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ margin-top:22px;
+ padding:8px 13px;
+ border-radius:30px;
+ background:rgba(66,229,154,.08);
+ border:1px solid rgba(66,229,154,.22);
+ color:var(--green);
+ font-size:13px;
+}
+.dot{
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:var(--green);
+ box-shadow:0 0 15px var(--green);
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:14px;
+ margin-bottom:20px;
+}
+.stat{
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:20px;
+}
+.stat small{color:var(--muted)}
+.stat strong{
+ display:block;
+ font-size:30px;
+ margin-top:7px;
+}
+.filters{
+ display:grid;
+ grid-template-columns:1.5fr 1fr 1fr 1fr;
+ gap:10px;
+ margin-bottom:22px;
+}
+.field{
+ width:100%;
+ background:#101725;
+ border:1px solid var(--line);
+ color:white;
+ border-radius:13px;
+ padding:14px;
+ outline:none;
+}
+.field:focus{border-color:var(--blue)}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:17px;
+ padding-bottom:70px;
+}
+.card{
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:20px;
+ padding:20px;
+ transition:.25s;
+}
+.card:hover{
+ transform:translateY(-4px);
+ border-color:rgba(98,140,255,.4);
+}
+.card-head{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+}
+.card h3{font-size:18px;margin-bottom:7px}
+.location{
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.5;
+}
+.badge{
+ padding:6px 9px;
+ border-radius:8px;
+ font-size:11px;
+ font-weight:800;
+ height:max-content;
+ white-space:nowrap;
+}
+.calm{background:rgba(66,229,154,.1);color:var(--green)}
+.medium{background:rgba(255,209,102,.1);color:var(--yellow)}
+.busy{background:rgba(255,98,108,.1);color:var(--red)}
+.queue-box{
+ margin:18px 0;
+ background:rgba(255,255,255,.035);
+ border-radius:15px;
+ padding:16px;
+}
+.row{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:7px 0;
+}
+.muted{color:var(--muted)}
+.current{
+ font-size:34px;
+ font-weight:900;
+}
+.progress{
+ height:7px;
+ background:#242d3e;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:12px;
+}
+.progress div{
+ height:100%;
+ background:linear-gradient(90deg,var(--blue),var(--purple));
+}
+.actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
+.empty{
+ grid-column:1/-1;
+ text-align:center;
+ padding:60px 20px;
+ color:var(--muted);
+}
+footer{
+ border-top:1px solid var(--line);
+ text-align:center;
+ color:#68758a;
+ padding:30px;
+}
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+ background:rgba(0,0,0,.72);
+ backdrop-filter:blur(8px);
+}
+.modal.show{display:flex}
+.modal-box{
+ width:min(600px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#111827;
+ border:1px solid var(--line);
+ border-radius:23px;
+ padding:24px;
+}
+.modal-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:20px;
+}
+.close{
+ border:0;
+ background:#20293a;
+ color:white;
+ width:35px;
+ height:35px;
+ border-radius:10px;
+}
+.ticket{text-align:center}
+.ticket-number{
+ font-size:75px;
+ font-weight:900;
+ color:var(--blue);
+ margin:15px 0;
+}
+.ticket-info{
+ background:#0b111d;
+ padding:15px;
+ border-radius:15px;
+ text-align:left;
+ line-height:2;
+}
+.modal-actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-top:18px;
+}
+.form{
+ display:grid;
+ gap:12px;
+}
+.label{
+ color:var(--muted);
+ font-size:13px;
+ margin-bottom:-5px;
+}
+.admin-item{
+ display:grid;
+ grid-template-columns:1fr auto auto;
+ align-items:center;
+ gap:8px;
+ padding:13px 0;
+ border-bottom:1px solid var(--line);
+}
+.admin-item b{font-size:14px}
+.admin-item small{display:block;color:var(--muted);margin-top:4px}
+.toast{
+ position:fixed;
+ right:20px;
+ bottom:20px;
+ z-index:3000;
+ background:#172033;
+ border:1px solid var(--line);
+ padding:14px 18px;
+ border-radius:13px;
+ display:none;
+}
+.toast.show{display:block}
+.section-title{
+ font-size:20px;
+ margin:5px 0 15px;
+}
+.api-note{
+ padding:13px 15px;
+ margin-bottom:20px;
+ background:rgba(255,209,102,.07);
+ border:1px solid rgba(255,209,102,.18);
+ color:#d7c99e;
+ border-radius:13px;
+ font-size:13px;
+ line-height:1.6;
+}
+@media(max-width:1000px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .filters{grid-template-columns:1fr 1fr}
+}
+@media(max-width:650px){
+ .nav{min-height:62px}
+ .logo{font-size:20px}
+ .nav-right .btn span{display:none}
+ .hero{padding-top:38px}
+ .stats{grid-template-columns:1fr 1fr}
+ .filters{grid-template-columns:1fr}
+ .grid{grid-template-columns:1fr}
+ .actions{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="nav">
+  <div class="logo">NÖVBƏ <span>AZ</span></div>
+  <div class="nav-right">
+   <button class="btn" onclick="showMyTicket()">🎫 <span>Növbəm</span></button>
+   <button class="btn btn-primary" onclick="openAdmin()">⚙ <span>İdarəetmə</span></button>
+  </div>
+ </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+ <h1>Azərbaycanın <span>canlı növbəsi</span></h1>
+ <p>
+  Şəhər və rayon seç, xidmət növünü tap, növbədəki vəziyyəti gör
+  və öz növbəni götür.
+ </p>
+ <div class="live">
+  <i class="dot"></i>
+  CANLI SİSTEM
+ </div>
+</section>
+
+<div class="api-note">
+ <b>Canlılıq:</b> bu sistem NÖVBƏ AZ daxilində yaradılan növbələri
+ real vaxt məntiqi ilə idarə edir. Xarici xəstəxana, bank və dövlət
+ sistemlərinin həqiqi növbələrini göstərmək üçün həmin qurumların
+ rəsmi API inteqrasiyası ayrıca tələb olunur.
+</div>
+
+<section class="stats">
+ <div class="stat">
+  <small>Məntəqə</small>
+  <strong id="statBranches">0</strong>
+ </div>
+ <div class="stat">
+  <small>Aktiv növbə</small>
+  <strong id="statActive">0</strong>
+ </div>
+ <div class="stat">
+  <small>Növbədə insan</small>
+  <strong id="statPeople">0</strong>
+ </div>
+ <div class="stat">
+  <small>Orta gözləmə</small>
+  <strong id="statWait">0 dəq</strong>
+ </div>
+</section>
+
+<section class="filters">
+
+ <input
+  id="search"
+  class="field"
+  placeholder="🔎 Müəssisə axtar..."
+  oninput="render()"
+ >
+
+ <select id="region" class="field" onchange="render()">
+  <option value="">Bütün Azərbaycan</option>
+ </select>
+
+ <select id="category" class="field" onchange="render()">
+  <option value="">Bütün xidmətlər</option>
+  <option value="Xəstəxana">Xəstəxana</option>
+  <option value="Klinika">Klinika</option>
+  <option value="Bank">Bank</option>
+  <option value="ASAN xidmət">ASAN xidmət</option>
+  <option value="Poçt">Poçt</option>
+  <option value="Dövlət xidməti">Dövlət xidməti</option>
+  <option value="Digər">Digər</option>
+ </select>
+
+ <select id="statusFilter" class="field" onchange="render()">
+  <option value="">Bütün vəziyyətlər</option>
+  <option value="Sakit">Sakit</option>
+  <option value="Orta">Orta</option>
+  <option value="Sıx">Sıx</option>
+ </select>
+
+</section>
+
+<section id="cards" class="grid"></section>
+
+</main>
+
+<footer>
+ NÖVBƏ AZ · Azərbaycanın canlı növbə platforması<br>
+ Created by Ümid Sarıyev
+</footer>
+
+
+<!-- NÖVBƏ -->
+<div id="ticketModal" class="modal">
+ <div class="modal-box">
+  <div class="modal-title">
+   <h2>Sizin növbəniz</h2>
+   <button class="close" onclick="closeModal('ticketModal')">×</button>
+  </div>
+
+  <div class="ticket">
+   <div id="ticketBranch" class="muted"></div>
+   <div id="ticketNumber" class="ticket-number">#000</div>
+
+   <div class="ticket-info">
+    <div>Hazırda xidmət: <b id="ticketCurrent">#0</b></div>
+    <div>Qarşınızda: <b id="ticketBefore">0 nəfər</b></div>
+    <div>Təxmini gözləmə: <b id="ticketWait">0 dəq</b></div>
+    <div>Son yenilənmə: <b id="ticketUpdated">-</b></div>
+   </div>
+
+   <div class="modal-actions">
+    <button class="btn" onclick="closeModal('ticketModal')">Bağla</button>
+    <button class="btn btn-danger" onclick="leaveQueue()">Növbədən çıx</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+<!-- ƏTRAFLI -->
+<div id="detailModal" class="modal">
+ <div class="modal-box">
+  <div class="modal-title">
+   <h2 id="detailTitle">Məntəqə</h2>
+   <button class="close" onclick="closeModal('detailModal')">×</button>
+  </div>
+  <div id="detailBody"></div>
+ </div>
+</div>
+
+
+<!-- ADMIN -->
+<div id="adminModal" class="modal">
+ <div class="modal-box">
+  <div class="modal-title">
+   <h2>İdarəetmə paneli</h2>
+   <button class="close" onclick="closeModal('adminModal')">×</button>
+  </div>
+
+  <div class="modal-actions" style="margin-top:0;margin-bottom:15px">
+   <button class="btn" onclick="resetAllQueues()">Növbələri sıfırla</button>
+   <button class="btn btn-primary" onclick="openAdd()">+ Məntəqə əlavə et</button>
+  </div>
+
+  <div id="adminList"></div>
+ </div>
+</div>
+
+
+<!-- ƏLAVƏ ET -->
+<div id="addModal" class="modal">
+ <div class="modal-box">
+  <div class="modal-title">
+   <h2>Məntəqə əlavə et</h2>
+   <button class="close" onclick="closeModal('addModal')">×</button>
+  </div>
+
+  <div class="form">
+
+   <label class="label">Müəssisənin adı</label>
+   <input id="addName" class="field" placeholder="Məsələn: Ağdaş Rayon Xəstəxanası">
+
+   <label class="label">Rayon / şəhər</label>
+   <select id="addRegion" class="field"></select>
+
+   <label class="label">Xidmət</label>
+   <select id="addCategory" class="field">
+    <option>Xəstəxana</option>
+    <option>Klinika</option>
+    <option>Bank</option>
+    <option>ASAN xidmət</option>
+    <option>Poçt</option>
+    <option>Dövlət xidməti</option>
+    <option>Digər</option>
+   </select>
+
+   <label class="label">Orta xidmət müddəti — dəqiqə</label>
+   <input id="addTime" class="field" type="number" min="1" value="5">
+
+   <button class="btn btn-primary" onclick="addBranch()">
+    Məntəqəni yarat
+   </button>
+
+  </div>
+ </div>
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* =========================================================
+   NÖVBƏ AZ
+   Bütün Azərbaycan rayon/şəhər seçimləri
+   ========================================================= */
+
+const REGIONS = [
+ "Abşeron",
+ "Ağcabədi",
+ "Ağdam",
+ "Ağdaş",
+ "Ağdərə",
+ "Ağstafa",
+ "Ağsu",
+ "Astara",
+ "Babək",
+ "Balakən",
+ "Beyləqan",
+ "Biləsuvar",
+ "Bərdə",
+ "Cəbrayıl",
+ "Cəlilabad",
+ "Daşkəsən",
+ "Füzuli",
+ "Gədəbəy",
+ "Goranboy",
+ "Göyçay",
+ "Göygöl",
+ "Hacıqabul",
+ "Xaçmaz",
+ "Xızı",
+ "Xocalı",
+ "Xocavənd",
+ "İmişli",
+ "İsmayıllı",
+ "Kəlbəcər",
+ "Kürdəmir",
+ "Qax",
+ "Qazax",
+ "Qəbələ",
+ "Qobustan",
+ "Quba",
+ "Qubadlı",
+ "Qusar",
+ "Laçın",
+ "Lerik",
+ "Masallı",
+ "Neftçala",
+ "Oğuz",
+ "Saatlı",
+ "Sabirabad",
+ "Salyan",
+ "Samux",
+ "Sədərək",
+ "Siyəzən",
+ "Şabran",
+ "Şahbuz",
+ "Şamaxı",
+ "Şəki",
+ "Şəmkir",
+ "Şərur",
+ "Şuşa",
+ "Tərtər",
+ "Tovuz",
+ "Ucar",
+ "Yardımlı",
+ "Yevlax",
+ "Zaqatala",
+ "Zəngilan",
+ "Zərdab",
+ "Bakı",
+ "Gəncə",
+ "Sumqayıt",
+ "Mingəçevir",
+ "Naxçıvan",
+ "Şirvan",
+ "Naftalan",
+ "Xankəndi"
+];
+
+const CATEGORIES = [
+ "Xəstəxana",
+ "Klinika",
+ "Bank",
+ "ASAN xidmət",
+ "Poçt",
+ "Dövlət xidməti",
+ "Digər"
+];
+
+const KEY = "NOVBE_AZ_FINAL_DATA";
+const TICKET_KEY = "NOVBE_AZ_FINAL_TICKET";
+
+let branches = [];
+
+
+/* =========================================================
+   KÖMƏKÇİLƏR
+   ========================================================= */
+
+function uid(){
+ return Date.now() + Math.floor(Math.random()*9999);
+}
+
+function esc(v){
+ return String(v)
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+}
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(branches));
+}
+
+function toast(text){
+ const el=document.getElementById("toast");
+ el.textContent=text;
+ el.classList.add("show");
+ setTimeout(()=>el.classList.remove("show"),3000);
+}
+
+function closeModal(id){
+ document.getElementById(id).classList.remove("show");
+}
+
+
+/* =========================================================
+   RAYONLARI SELECT-LƏRƏ YAZ
+   ========================================================= */
+
+function loadRegions(){
+
+ const selects=[
+  document.getElementById("region"),
+  document.getElementById("addRegion")
+ ];
+
+ selects.forEach((select,index)=>{
+
+  if(!select)return;
+
+  if(index===0){
+   select.innerHTML=
+    '<option value="">Bütün Azərbaycan</option>';
+  }else{
+   select.innerHTML=
+    '<option value="">Rayon / şəhər seçin</option>';
+  }
+
+  REGIONS.forEach(r=>{
+   const op=document.createElement("option");
+   op.value=r;
+   op.textContent=r;
+   select.appendChild(op);
+  });
+
+ });
+
+}
+
+
+/* =========================================================
+   BAŞLANĞIC MƏNTƏQƏLƏRİ
+   ========================================================= */
+
+function createInitialData(){
+
+ const data=[];
+
+ /*
+  Hər rayon/şəhər üçün bütün kateqoriyalar
+  yaradılır.
+  Beləliklə Qəbələ + Xəstəxana,
+  Ağdaş + Xəstəxana və s. boş qalmır.
+ */
+
+ REGIONS.forEach((region,index)=>{
+
+  CATEGORIES.forEach((category,cindex)=>{
+
+   let name;
+
+   if(category==="Xəstəxana"){
+    name=`${region} Rayon Xəstəxanası`;
+   }
+   else if(category==="Klinika"){
+    name=`${region} Mərkəzi Klinika`;
+   }
+   else if(category==="Bank"){
+    name=`${region} Bank Xidmət Mərkəzi`;
+   }
+   else if(category==="ASAN xidmət"){
+    name=`${region} ASAN Xidmət`;
+   }
+   else if(category==="Poçt"){
+    name=`${region} Poçt Xidməti`;
+   }
+   else if(category==="Dövlət xidməti"){
+    name=`${region} Dövlət Xidmət Mərkəzi`;
+   }
+   else{
+    name=`${region} Xidmət Mərkəzi`;
+   }
+
+   /*
+    Demo başlanğıc vəziyyəti.
+    Bunlar real xarici qurumların növbəsi deyil.
+    NÖVBƏ AZ sisteminin öz növbələridir.
+   */
+
+   const current=
+    ((index+cindex)%45)+1;
+
+   const waiting=
+    ((index*3+cindex*2)%18)+2;
+
+   const serviceTime=
+    4+(cindex%4);
+
+   data.push({
+    id:uid()+index+cindex,
+    name,
+    region,
+    category,
+    current,
+    waiting,
+    serviceTime,
+    createdAt:Date.now(),
+    updatedAt:Date.now()
+   });
+
+  });
+
+ });
+
+ return data;
+}
+
+
+/* =========================================================
+   DATA YÜKLƏ
+   ========================================================= */
+
+function loadData(){
+
+ const saved=localStorage.getItem(KEY);
+
+ if(saved){
+
+  try{
+   branches=JSON.parse(saved);
+
+   /*
+    Əgər köhnə versiyanın datasıdırsa,
+    tam yeni strukturu yarat.
+   */
+
+   if(!Array.isArray(branches) || !branches.length){
+    throw new Error();
+   }
+
+   return;
+
+  }catch(e){}
+ }
+
+ branches=createInitialData();
+ save();
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function getStatus(n){
+
+ if(n<=5){
+  return ["Sakit","calm"];
+ }
+
+ if(n<=12){
+  return ["Orta","medium"];
+ }
+
+ return ["Sıx","busy"];
+}
+
+
+/* =========================================================
+   STATİSTİKA
+   ========================================================= */
+
+function stats(){
+
+ const total=branches.length;
+
+ const active=branches.filter(
+  x=>x.waiting>0
+ ).length;
+
+ const people=branches.reduce(
+  (a,x)=>a+x.waiting,0
+ );
+
+ const wait=total
+  ? Math.round(
+     branches.reduce(
+      (a,x)=>a+x.waiting*x.serviceTime,0
+     )/total
+    )
+  :0;
+
+ document.getElementById("statBranches").textContent=total;
+ document.getElementById("statActive").textContent=active;
+ document.getElementById("statPeople").textContent=people;
+ document.getElementById("statWait").textContent=wait+" dəq";
+}
+
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function render(){
+
+ const search=
+  document.getElementById("search").value
+   .trim()
+   .toLowerCase();
+
+ const region=
+  document.getElementById("region").value;
+
+ const category=
+  document.getElementById("category").value;
+
+ const statusFilter=
+  document.getElementById("statusFilter").value;
+
+ const list=branches.filter(b=>{
+
+  const text=
+   (b.name+" "+b.region+" "+b.category)
+   .toLowerCase();
+
+  if(search && !text.includes(search)){
+   return false;
+  }
+
+  if(region && b.region!==region){
+   return false;
+  }
+
+  if(category && b.category!==category){
+   return false;
+  }
+
+  const status=getStatus(b.waiting)[0];
+
+  if(statusFilter && status!==statusFilter){
+   return false;
+  }
+
+  return true;
+
+ });
+
+
+ const container=document.getElementById("cards");
+
+ if(!list.length){
+
+  container.innerHTML=`
+   <div class="empty">
+    <h3 style="margin-bottom:8px">
+     Nəticə tapılmadı
+    </h3>
+    <p>
+     Seçilmiş rayon və xidmət üzrə məntəqə yoxdur.
+    </p>
+   </div>
+  `;
+
+  stats();
+  return;
+ }
+
+
+ container.innerHTML=list.map(b=>{
+
+  const [status,cls]=getStatus(b.waiting);
+
+  const wait=b.waiting*b.serviceTime;
+
+  const max=Math.max(
+   b.current+b.waiting,
+   1
+  );
+
+  const progress=Math.min(
+   100,
+   b.current/max*100
+  );
+
+  return `
+   <article class="card">
+
+    <div class="card-head">
+
+     <div>
+      <h3>${esc(b.name)}</h3>
+
+      <div class="location">
+       📍 ${esc(b.region)}
+       · ${esc(b.category)}
+      </div>
+     </div>
+
+     <span class="badge ${cls}">
+      ${status}
+     </span>
+
+    </div>
+
+
+    <div class="queue-box">
+
+     <div class="row">
+      <span class="muted">
+       Hazırda xidmət
+      </span>
+      <b>#${b.current}</b>
+     </div>
+
+     <div class="row">
+      <span class="muted">
+       Növbədə
+      </span>
+      <span class="current">
+       ${b.waiting}
+      </span>
+     </div>
+
+     <div class="row">
+      <span class="muted">
+       Gözləmə
+      </span>
+      <b>${wait} dəq</b>
+     </div>
+
+     <div class="progress">
+      <div style="width:${progress}%"></div>
+     </div>
+
+    </div>
+
+
+    <div class="actions">
+
+     <button
+      class="btn btn-primary"
+      onclick="takeQueue(${b.id})">
+      🎫 Növbə götür
+     </button>
+
+     <button
+      class="btn"
+      onclick="details(${b.id})">
+      Ətraflı
+     </button>
+
+    </div>
+
+   </article>
+  `;
+
+ }).join("");
+
+ stats();
+}
+
+
+/* =========================================================
+   NÖVBƏ GÖTÜR
+   ========================================================= */
+
+function takeQueue(id){
+
+ const b=branches.find(x=>x.id===id);
+
+ if(!b)return;
+
+ b.waiting++;
+ b.updatedAt=Date.now();
+
+ /*
+  Növbə nömrəsi:
+  hazırkı nömrə + növbədə olan sonuncu
+ */
+
+ const number=b.current+b.waiting;
+
+ const ticket={
+  branchId:b.id,
+  branchName:b.name,
+  region:b.region,
+  category:b.category,
+  number,
+  createdAt:Date.now()
+ };
+
+ localStorage.setItem(
+  TICKET_KEY,
+  JSON.stringify(ticket)
+ );
+
+ save();
+ render();
+
+ showTicket(ticket);
+
+ toast("Növbəniz yaradıldı.");
+}
+
+
+/* =========================================================
+   NÖVBƏ GÖSTƏR
+   ========================================================= */
+
+function showTicket(ticket){
+
+ const b=branches.find(
+  x=>x.id===ticket.branchId
+ );
+
+ if(!b)return;
+
+ const before=Math.max(
+  0,
+  ticket.number-b.current-1
+ );
+
+ document.getElementById(
+  "ticketBranch"
+ ).textContent=
+  `${b.name} · ${b.region}`;
+
+ document.getElementById(
+  "ticketNumber"
+ ).textContent=
+  "#"+ticket.number;
+
+ document.getElementById(
+  "ticketCurrent"
+ ).textContent=
+  "#"+b.current;
+
+ document.getElementById(
+  "ticketBefore"
+ ).textContent=
+  before+" nəfər";
+
+ document.getElementById(
+  "ticketWait"
+ ).textContent=
+  before*b.serviceTime+" dəq";
+
+ document.getElementById(
+  "ticketUpdated"
+ ).textContent=
+  new Date(b.updatedAt).toLocaleTimeString(
+   "az-AZ",
+   {hour:"2-digit",minute:"2-digit"}
+  );
+
+ document.getElementById(
+  "ticketModal"
+ ).classList.add("show");
+}
+
+
+function showMyTicket(){
+
+ const raw=localStorage.getItem(TICKET_KEY);
+
+ if(!raw){
+  toast("Hazırda aktiv növbəniz yoxdur.");
+  return;
+ }
+
+ try{
+  showTicket(JSON.parse(raw));
+ }catch{
+  localStorage.removeItem(TICKET_KEY);
+  toast("Növbə məlumatı tapılmadı.");
+ }
+}
+
+
+/* =========================================================
+   NÖVBƏDƏN ÇIX
+   ========================================================= */
+
+function leaveQueue(){
+
+ const raw=localStorage.getItem(TICKET_KEY);
+
+ if(!raw){
+  closeModal("ticketModal");
+  return;
+ }
+
+ let ticket;
+
+ try{
+  ticket=JSON.parse(raw);
+ }catch{
+  localStorage.removeItem(TICKET_KEY);
+  closeModal("ticketModal");
+  return;
+ }
+
+ const b=branches.find(
+  x=>x.id===ticket.branchId
+ );
+
+ if(b && b.waiting>0){
+
+  b.waiting--;
+  b.updatedAt=Date.now();
+
+ }
+
+ localStorage.removeItem(TICKET_KEY);
+
+ save();
+ render();
+ closeModal("ticketModal");
+
+ toast("Növbədən çıxıldı.");
+}
+
+
+/* =========================================================
+   ƏTRAFLI
+   ========================================================= */
+
+function details(id){
+
+ const b=branches.find(x=>x.id===id);
+
+ if(!b)return;
+
+ const [status]=getStatus(b.waiting);
+
+ const wait=
+  b.waiting*b.serviceTime;
+
+ document.getElementById(
+  "detailTitle"
+ ).textContent=b.name;
+
+ document.getElementById(
+  "detailBody"
+ ).innerHTML=`
+
+  <div class="queue-box">
+
+   <div class="row">
+    <span class="muted">Rayon / şəhər</span>
+    <b>${esc(b.region)}</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Xidmət</span>
+    <b>${esc(b.category)}</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Vəziyyət</span>
+    <b>${status}</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Hazırkı nömrə</span>
+    <b>#${b.current}</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Növbədə</span>
+    <b>${b.waiting} nəfər</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Orta xidmət</span>
+    <b>${b.serviceTime} dəq</b>
+   </div>
+
+   <div class="row">
+    <span class="muted">Təxmini gözləmə</span>
+    <b>${wait} dəq</b>
+   </div>
+
+  </div>
+
+  <button
+   class="btn btn-primary"
+   style="width:100%"
+   onclick="closeModal('detailModal');takeQueue(${b.id})">
+   🎫 Bu məntəqədən növbə götür
+  </button>
+ `;
+
+ document.getElementById(
+  "detailModal"
+ ).classList.add("show");
+}
+
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+function openAdmin(){
+
+ renderAdmin();
+
+ document.getElementById(
+  "adminModal"
+ ).classList.add("show");
+}
+
+
+function renderAdmin(){
+
+ const el=document.getElementById(
+  "adminList"
+ );
+
+ if(!branches.length){
+  el.innerHTML=
+   "<p class='muted'>Məntəqə yoxdur.</p>";
+  return;
+ }
+
+ el.innerHTML=branches.map(b=>`
+
+  <div class="admin-item">
+
+   <div>
+    <b>${esc(b.name)}</b>
+    <small>
+     ${esc(b.region)} ·
+     ${esc(b.category)} ·
+     #${b.current} ·
+     ${b.waiting} nəfər
+    </small>
+   </div>
+
+   <button
+    class="btn btn-primary"
+    onclick="nextPerson(${b.id})">
+    ▶
+   </button>
+
+   <button
+    class="btn btn-danger"
+    onclick="removeBranch(${b.id})">
+    ×
+   </button>
+
+  </div>
+
+ `).join("");
+}
+
+
+/* =========================================================
+   NÖVBƏNİ ÇAĞIR
+   ========================================================= */
+
+function nextPerson(id){
+
+ const b=branches.find(x=>x.id===id);
+
+ if(!b)return;
+
+ if(b.waiting<=0){
+  toast("Növbədə gözləyən yoxdur.");
+  return;
+ }
+
+ b.current++;
+ b.waiting--;
+ b.updatedAt=Date.now();
+
+ const raw=localStorage.getItem(TICKET_KEY);
+
+ if(raw){
+
+  try{
+
+   const ticket=JSON.parse(raw);
+
+   if(ticket.branchId===b.id &&
+      ticket.number<=b.current){
+
+    localStorage.removeItem(TICKET_KEY);
+
+    toast("Növbəniz çatdı!");
+
+   }
+
+  }catch{}
+
+ }
+
+ save();
+ render();
+ renderAdmin();
+}
+
+
+/* =========================================================
+   MƏNTƏQƏ SİL
+   ========================================================= */
+
+function removeBranch(id){
+
+ const b=branches.find(x=>x.id===id);
+
+ if(!b)return;
+
+ if(!confirm(
+  `"${b.name}" silinsin?`
+ )){
+  return;
+ }
+
+ branches=branches.filter(
+  x=>x.id!==id
+ );
+
+ save();
+ render();
+ renderAdmin();
+
+ toast("Məntəqə silindi.");
+}
+
+
+/* =========================================================
+   YENİ MƏNTƏQƏ
+   ========================================================= */
+
+function openAdd(){
+
+ document.getElementById(
+  "addModal"
+ ).classList.add("show");
+}
+
+
+function addBranch(){
+
+ const name=document.getElementById(
+  "addName"
+ ).value.trim();
+
+ const region=document.getElementById(
+  "addRegion"
+ ).value;
+
+ const category=document.getElementById(
+  "addCategory"
+ ).value;
+
+ const time=Number(
+  document.getElementById(
+   "addTime"
+  ).value
+ );
+
+ if(!name){
+  toast("Müəssisənin adını yazın.");
+  return;
+ }
+
+ if(!region){
+  toast("Rayon / şəhər seçin.");
+  return;
+ }
+
+ const b={
+  id:uid(),
+  name,
+  region,
+  category,
+  current:0,
+  waiting:0,
+  serviceTime:
+   time>0?time:5,
+  createdAt:Date.now(),
+  updatedAt:Date.now()
+ };
+
+ branches.push(b);
+
+ save();
+ render();
+ renderAdmin();
+
+ document.getElementById(
+  "addName"
+ ).value="";
+
+ document.getElementById(
+  "addRegion"
+ ).value="";
+
+ closeModal("addModal");
+
+ toast("Məntəqə əlavə edildi.");
+}
+
+
+/* =========================================================
+   HAMISINI SIFIRLA
+   ========================================================= */
+
+function resetAllQueues(){
+
+ if(!confirm(
+  "Bütün növbələr sıfırlansın?"
+ )){
+  return;
+ }
+
+ branches.forEach(b=>{
+  b.current=0;
+  b.waiting=0;
+  b.updatedAt=Date.now();
+ });
+
+ localStorage.removeItem(TICKET_KEY);
+
+ save();
+ render();
+ renderAdmin();
+
+ toast("Bütün növbələr sıfırlandı.");
+}
+
+
+/* =========================================================
+   CANLI TƏQLİD / AUTO UPDATE
+   =========================================================
+
+   Bu hissə NÖVBƏ AZ daxilindəki növbələri
+   avtomatik yeniləyir.
+
+   Hər 30 saniyədə növbəsi olan məntəqədə
+   növbə 1 nəfər irəliləyə bilər.
+
+   Xarici real müəssisə məlumatı deyil.
+*/
+
+setInterval(()=>{
+
+ let changed=false;
+
+ branches.forEach(b=>{
+
+  if(
+   b.waiting>0 &&
+   Math.random()<0.35
+  ){
+
+   b.current++;
+   b.waiting--;
+   b.updatedAt=Date.now();
+
+   changed=true;
+  }
+
+ });
+
+ if(changed){
+
+  save();
+  render();
+  renderAdminIfOpen();
+  checkTicket();
+
+ }
+
+},30000);
+
+
+/* =========================================================
+   TİCKET YOXLA
+   ========================================================= */
+
+function checkTicket(){
+
+ const raw=localStorage.getItem(TICKET_KEY);
+
+ if(!raw)return;
+
+ try{
+
+  const ticket=JSON.parse(raw);
+
+  const b=branches.find(
+   x=>x.id===ticket.branchId
+  );
+
+  if(
+   b &&
+   ticket.number<=b.current
+  ){
+
+   localStorage.removeItem(TICKET_KEY);
+
+   toast("Növbəniz çatdı!");
+
+  }
+
+ }catch{}
+
+}
+
+
+/* =========================================================
+   ADMIN AÇIQDIR?
+   ========================================================= */
+
+function renderAdminIfOpen(){
+
+ const modal=document.getElementById(
+  "adminModal"
+ );
+
+ if(modal.classList.contains("show")){
+  renderAdmin();
+ }
+
+}
+
+
+/* =========================================================
+   TABLAR ARASINDA SINXRON
+   ========================================================= */
+
+window.addEventListener(
+ "storage",
+ e=>{
+
+  if(e.key===KEY){
+
+   try{
+
+    branches=
+     JSON.parse(e.newValue)||[];
+
+    render();
+    renderAdminIfOpen();
+
+   }catch{}
+
+  }
+
+ }
+);
+
+
+/* =========================================================
+   BAŞLAT
+   ========================================================= */
+
+loadData();
+loadRegions();
+render();
+
+</script>
+
+</body>
+</html>
